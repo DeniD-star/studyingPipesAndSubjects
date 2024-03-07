@@ -5,21 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReducePipe } from './reduce.pipe';
 import { HttpClientModule } from '@angular/common/http';
-import { AppInterceptor, appInterceptorProvider } from './app.interceptor';
+import { appInterceptorProvider } from './app.interceptor';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ReducePipe,
-    HomeComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+  declarations: [AppComponent, ReducePipe, HomeComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [appInterceptorProvider],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,14 +1,13 @@
 import {
-  HttpInterceptor,
+  HTTP_INTERCEPTORS,
   HttpEvent,
   HttpHandler,
+  HttpInterceptor,
   HttpRequest,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-
 import { EMPTY, Observable, catchError, tap } from 'rxjs';
 import { API_URL } from './constant';
-import {Provider} from '@angular/core';
+import { Provider } from '@angular/core';
 
 export class AppInterceptor implements HttpInterceptor {
   intercept(
@@ -16,26 +15,26 @@ export class AppInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let request = req;
+
     if (req.url.startsWith('/api')) {
       request = req.clone({
         url: req.url.replace('/api', API_URL),
       });
     }
+
     return next.handle(request).pipe(
       tap((req) => {
         if (req instanceof HttpRequest) {
-          console.log(req);
+          // console.log(req);
         }
       }),
-      catchError((err)=>{
-
-        if(err.status === 0){
-
-          console.error(`Error from Interceptor: ${JSON.stringify(err)}`)
+      catchError((err) => {
+        if (err.status === 0) {
+          console.error(`Error from Interceptor: ${JSON.stringify(err)}`);
           return EMPTY;
         }
-        return [err];
 
+        return [err];
       })
     );
   }
@@ -44,6 +43,5 @@ export class AppInterceptor implements HttpInterceptor {
 export const appInterceptorProvider: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
-  useClass: AppInterceptor
-}
-
+  useClass: AppInterceptor,
+};
